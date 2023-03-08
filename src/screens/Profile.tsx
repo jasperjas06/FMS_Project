@@ -51,7 +51,8 @@ const Profile = () => {
             padding={sizes.sm}
             paddingBottom={sizes.l}
             radius={sizes.cardRadius}
-            source={assets.background}>
+            // source={assets.card5}
+            >
             <Button
               row
               flex={0}
@@ -61,30 +62,32 @@ const Profile = () => {
                 radius={0}
                 width={10}
                 height={18}
-                color={colors.white}
+                color={colors.black}
                 source={assets.arrow}
                 transform={[{rotate: '180deg'}]}
               />
-              <Text p white marginLeft={sizes.s}>
+              <Text p black marginLeft={sizes.s}>
                 {t('profile.title')}
               </Text>
             </Button>
             <Block flex={0} align="center">
               <Image
-                width={64}
-                height={64}
+                width={200}
+                height={200}
+                radius={100}
                 marginBottom={sizes.sm}
-                source={{uri: user?.avatar}}
+                // source={{uri: user?.avatar}}
+                source={require('../assets/images/photo3.png')}
               />
-              <Text h5 center white>
+              <Text h5 center black>
                 {user?.name}
               </Text>
-              <Text p center white>
+              <Text p center black>
                 {user?.department}
               </Text>
               <Block row marginVertical={sizes.m}>
-                <Button
-                  white
+                {/* <Button
+                  black
                   outlined
                   shadow={false}
                   radius={sizes.m}
@@ -96,42 +99,42 @@ const Profile = () => {
                     radius={sizes.m}
                     paddingHorizontal={sizes.m}
                     color="rgba(255,255,255,0.2)">
-                    <Text white bold transform="uppercase">
+                    <Text black bold transform="uppercase">
                       {t('common.follow')}
                     </Text>
                   </Block>
-                </Button>
-                <Button
+                </Button> */}
+                {/* <Button
                   shadow={false}
                   radius={sizes.m}
                   marginHorizontal={sizes.sm}
                   color="rgba(255,255,255,0.2)"
-                  outlined={String(colors.white)}
+                  outlined={String(colors.black)}
                   onPress={() => handleSocialLink('twitter')}>
                   <Ionicons
                     size={18}
                     name="logo-twitter"
-                    color={colors.white}
+                    color={colors.black}
                   />
-                </Button>
-                <Button
+                </Button> */}
+                {/* <Button
                   shadow={false}
                   radius={sizes.m}
                   color="rgba(255,255,255,0.2)"
-                  outlined={String(colors.white)}
+                  outlined={String(colors.black)}
                   onPress={() => handleSocialLink('dribbble')}>
                   <Ionicons
                     size={18}
                     name="logo-dribbble"
-                    color={colors.white}
+                    color={colors.black}
                   />
-                </Button>
+                </Button> */}
               </Block>
             </Block>
           </Image>
 
           {/* profile: stats */}
-          <Block
+          {/* <Block
             flex={0}
             radius={sizes.sm}
             shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
@@ -162,21 +165,21 @@ const Profile = () => {
                 <Text>{t('profile.following')}</Text>
               </Block>
             </Block>
-          </Block>
+          </Block> */}
 
           {/* profile: about me */}
           <Block paddingHorizontal={sizes.sm}>
-            <Text h5 semibold marginBottom={sizes.s} marginTop={sizes.sm}>
+            {/* <Text h5 semibold marginBottom={sizes.s} marginTop={sizes.sm}>
               {t('profile.aboutMe')}
-            </Text>
-            <Text p lineHeight={26}>
+            </Text> */}
+            {/* <Text p lineHeight={26}>
               {user?.about}
-            </Text>
+            </Text> */}
           </Block>
 
           {/* profile: photo album */}
           <Block paddingHorizontal={sizes.sm} marginTop={sizes.s}>
-            <Block row align="center" justify="space-between">
+            {/* <Block row align="center" justify="space-between">
               <Text h5 semibold>
                 {t('common.album')}
               </Text>
@@ -185,17 +188,17 @@ const Profile = () => {
                   {t('common.viewall')}
                 </Text>
               </Button>
-            </Block>
+            </Block> */}
             <Block row justify="space-between" wrap="wrap">
-              <Image
+              {/* <Image
                 resizeMode="cover"
                 source={assets?.photo1}
                 style={{
                   width: IMAGE_VERTICAL_SIZE + IMAGE_MARGIN / 2,
                   height: IMAGE_VERTICAL_SIZE * 2 + IMAGE_VERTICAL_MARGIN,
                 }}
-              />
-              <Block marginLeft={sizes.m}>
+              /> */}
+              {/* <Block marginLeft={sizes.m}>
                 <Image
                   resizeMode="cover"
                   source={assets?.photo2}
@@ -213,7 +216,7 @@ const Profile = () => {
                     width: IMAGE_VERTICAL_SIZE,
                   }}
                 />
-              </Block>
+              </Block> */}
             </Block>
           </Block>
         </Block>
