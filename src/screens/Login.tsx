@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Linking, Platform, StyleSheet, TextInput, View} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
-
+// import {AsyncStorage} from 'react-native'
 import {useData, useTheme, useTranslation} from '../hooks/';
 import * as regex from '../constants/regex';
 import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
@@ -74,8 +74,7 @@ const Login = () => {
   const handleSubmit=()=>{
     api.post(`/login`,{"email":email,"password":password})
     .then((response:any)=>{
-      console.log(response,'res');
-      
+      console.log(response?.data);
     })
     .catch((e)=>{
       console.log(e.message,"err");
