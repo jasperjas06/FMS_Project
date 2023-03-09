@@ -1,8 +1,9 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import {DataTable} from "react-native-paper"
-
+import { SelectList } from 'react-native-dropdown-select-list'
 export default function Table() {
+    const [selected, setSelected] = React.useState("");
     const data=[
         {
             id:1,
@@ -35,6 +36,15 @@ export default function Table() {
             age:"23"
         }
     ]
+    const data2 = [
+        {key:'1', value:'123456', disabled:true, lable:"mobile"},
+        {key:'2', value:'Appliances'},
+        {key:'3', value:'Cameras'},
+        {key:'4', value:'Computers', disabled:true},
+        {key:'5', value:'Vegetables'},
+        {key:'6', value:'Diary Products'},
+        {key:'7', value:'Drinks'},
+    ]
   return (
     <View>
       <Text>Table</Text>
@@ -59,6 +69,11 @@ export default function Table() {
             <DataTable.Cell>23</DataTable.Cell>
         </DataTable.Row> */}
       </DataTable>
+      <SelectList 
+        setSelected={(val:any) => setSelected(val)} 
+        data={data2} 
+        save="value"
+    />
     </View>
   )
 }

@@ -5,7 +5,8 @@ import {useNavigation} from '@react-navigation/core';
 import {useData, useTheme, useTranslation} from '../hooks/';
 import * as regex from '../constants/regex';
 import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
-import { api } from '../utilities/apiService';
+import { api } from '../app/utility/apiService';
+// import { api } from '../utilities/apiService';
 // import { logIn } from '../utilities/apiService';
 
 
