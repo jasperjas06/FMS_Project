@@ -40,12 +40,14 @@ export default function Table() {
       <Text>Table</Text>
       <DataTable>
         <DataTable.Header>
+            <DataTable.Title>Sl</DataTable.Title>
             <DataTable.Title>Name</DataTable.Title>
             <DataTable.Title>Favourite Food</DataTable.Title>
             <DataTable.Title>Age</DataTable.Title>
         </DataTable.Header>
 
-        {data.map((item)=> <DataTable.Row>
+        {data.map((item,index)=> <DataTable.Row>
+            <DataTable.Cell>{index+1}</DataTable.Cell>
             <DataTable.Cell>{item.name}</DataTable.Cell>
             <DataTable.Cell>{item.food}</DataTable.Cell>
             <DataTable.Cell>{item.age}</DataTable.Cell>

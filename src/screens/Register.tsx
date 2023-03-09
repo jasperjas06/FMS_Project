@@ -111,9 +111,10 @@ const Register = () => {
         <Block
           keyboard
           behavior={!isAndroid ? 'padding' : 'height'}
-          marginTop={-(sizes.height * 0.2 - sizes.l)}>
+          marginTop={-(sizes.height * 0.2 - sizes.l)}
+          >
           <Block
-          style={{marginTop:67}}
+          style={{bottom:20,top:-1}}
             flex={0}
             radius={sizes.sm}
             marginHorizontal="8%"
@@ -128,7 +129,7 @@ const Register = () => {
               justify="space-evenly"
               tint={colors.blurTint}
               paddingVertical={sizes.sm}>
-              <Text marginTop={17} bold size={22} center>
+              <Text marginTop={1} bold size={22} center>
                 {t('register.subtitle')}
               </Text>
               {/* social buttons */}
@@ -227,9 +228,31 @@ const Register = () => {
                   // success={Boolean(registration.password && isValid.password)}
                   // danger={Boolean(registration.password && !isValid.password)}
                 />
+                <Input
+                  secondary
+                  autoCapitalize="none"
+                  marginBottom={sizes.m}
+                  label={'department'}
+                  placeholder={"Enter department"}
+                  // success={Boolean(registration.name && isValid.name)}
+                  // danger={Boolean(registration.name && !isValid.name)}
+                  // onChangeText={(value) => handleChange({name: value})}
+                  onChangeText={(value) => setName(value)}
+                />
+                <Input
+                  secondary
+                  autoCapitalize="none"
+                  marginBottom={sizes.m}
+                  label={'Register Number'}
+                  placeholder={"Register Number"}
+                  // success={Boolean(registration.name && isValid.name)}
+                  // danger={Boolean(registration.name && !isValid.name)}
+                  // onChangeText={(value) => handleChange({name: value})}
+                  onChangeText={(value) => setName(value)}
+                />
               </Block>
               {/* checkbox terms */}
-              <Block row flex={0} align="center" paddingHorizontal={sizes.sm}>
+              {/* <Block row flex={0} align="center" paddingHorizontal={sizes.sm}>
                 <Checkbox
                   marginRight={sizes.sm}
                   // checked={registration?.agreed}
@@ -246,7 +269,7 @@ const Register = () => {
                     {t('common.terms')}
                   </Text>
                 </Text>
-              </Block>
+              </Block> */}
               <Button
                 // onPress={handleSignUp}
                 onPress={handleSubmit}
