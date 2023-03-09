@@ -5,26 +5,31 @@ import {DataTable} from "react-native-paper"
 export default function Table() {
     const data=[
         {
+            id:1,
             name:"jasper",
             food:"xyz",
             age:"23"
         },
         {
+            id:2,
             name:"mathi",
             food:"xyz",
             age:"23"
         },
         {
+            id:3,
             name:"velava",
             food:"xyz",
             age:"23"
         },
         {
+            id:4,
             name:"sanjay",
             food:"xyz",
             age:"23"
         },
         {
+            id:5,
             name:"deva",
             food:"xyz",
             age:"23"

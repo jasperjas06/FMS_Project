@@ -51,8 +51,8 @@ export default () => {
     <TranslationProvider>
       <ThemeProvider theme={theme} setTheme={setTheme}>
         <NavigationContainer theme={navigationTheme}>
-          <Menu />
-          {/* <Auth/> */}
+          {/* <Menu /> */}
+          <Auth/>
         </NavigationContainer>
       </ThemeProvider>
     </TranslationProvider>
