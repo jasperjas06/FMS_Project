@@ -1,13 +1,34 @@
 import {create} from 'apisauce'
+import { useEffect, useState } from 'react';
 
+// function Abc(){
+//   const [data,setData]=useState()
+//   return
+// }
 export const api=create({
   baseURL:"http://192.168.1.26:9870/api/",
   headers:{
     "Content-Type":"application/json",
+    
   }
 })
 
-// export const logIn=api.post(`/login`,email,password)
-// .then((res)=>{
-//   console.log(res);
-// }).catch((e)=>console.log(e.message))
+// useEffect(()=>{
+  // const [data,setData]=useState()
+
+  // export  const dep= api.get(`/getDep`)
+  // .then((response)=>{
+  //     // console.log(response?.data.data);
+  //     let data=[]
+  //     return data=response?.data.data
+      
+  //   })
+  //   .catch((e)=>{
+  //     console.log(e.message,"err");
+      
+  //   })
+  //   console.log(dep);
+    
+// },[])
+
+// export default data

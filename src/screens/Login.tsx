@@ -28,7 +28,7 @@ interface IRegistrationValidation {
 
 const Login = () => {
     const navigation= useNavigation()
-//   const [name,setName]=useState("")
+  const [data,setData]=useState([])
   const [email,setEmail]=useState("")
   const [password,setPassword]=useState("")
 //   const [terms,setTerms]=useState(false)
@@ -83,7 +83,21 @@ const Login = () => {
     })
 
   }
+  useEffect(()=>{
+    let dep= api.get(`/getDep`)
+    .then((response:any)=>{
+        console.log(response?.data.data);
+        setData(response?.data.data)
+      })
+      .catch((e)=>{
+        console.log(e.message,"err");
+        
+      })
+    //   console.log(dep);
+      
+  },[])
 
+  // export const value=data ;
   return (
     <Block safe marginTop={sizes.md} >
       <Block paddingHorizontal={sizes.s}>
@@ -280,7 +294,7 @@ const Login = () => {
                 marginVertical={sizes.s}
                 marginHorizontal={sizes.sm}
                 // onPress={() => navigation.navigate('Pro')}
-                onPress={() => navigation.navigate('Register')}
+                onPress={() => {navigation.navigate('Register'),data}}
                 >
                 <Text bold secondary transform="uppercase">
                   {"Student Register"}

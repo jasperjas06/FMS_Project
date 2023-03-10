@@ -21,7 +21,8 @@ interface IRegistrationValidation {
   agreed: boolean;
 }
 
-const Register = () => {
+const Register = (props:any) => {
+  const {data}= props
   const navigation= useNavigation()
   const [name,setName]=useState("")
   const [email,setEmail]=useState("")
@@ -71,7 +72,8 @@ const Register = () => {
     console.log(name,email,password,terms);
     
   }
-
+  console.log(data,"ertyu");
+  
   return (
     <Block safe marginTop={sizes.md}>
       <Block paddingHorizontal={sizes.s}>
