@@ -5,6 +5,7 @@ import {DataTable} from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Picker} from '@react-native-picker/picker';
 import { api, dep } from '../app/utility/apiService';
+import { removeToken } from '../app/auth/Store';
 export default function Table() {
   const [selectedLanguage, setSelectedLanguage] = useState();
   const [selected, setSelected] = React.useState('');
@@ -59,14 +60,28 @@ export default function Table() {
   //  setItems(data2)
   // return setItems
   // })
-//   console.log(selectedLanguage);
-  
+  console.log(selectedLanguage,"id");
+  useEffect(()=>{
+    let dep= api.get(`/getDep`)
+    .then((response:any)=>{
+        // console.log(response?.data.data);
+        setValue(response?.data.data)
+      })
+      .catch((e)=>{
+        console.log(e.message,"err");
+        
+      })
+    //   console.log(dep);
+      
+  },[])
 //   setValue(dep)
 //   console.log(dep);
-//   let arr=[]
-//   arr.push(dep)
-//   console.log(arr,"hggh");
-  
+  let arr=[value]
+//   arr.push(value)
+  console.log(arr,"hggh");
+  const logOut=()=>{
+
+  }
   
   return (
     <View>
@@ -99,24 +114,19 @@ export default function Table() {
         save="value"
     /> */}
 
-      <Picker
+      {/* <Picker
         selectedValue={selectedLanguage}
         // mode="dropdown"
         onValueChange={(itemValue, itemIndex) =>
           setSelectedLanguage(itemValue)
         }>
-            {data2.map((items)=>{
-                return <Picker.Item label={items?.label} value={items?.value
-                
-                
-                
-                
-                }  />
+            {arr[0].map((items)=>{
+                return <Picker.Item label={items?.department} value={items?._id}  />
                 
             })}
-        {/* <Picker.Item label="Java" value="java" />
-        <Picker.Item label="JavaScript" value="js" /> */}
-      </Picker>
+
+      </Picker> */}
+      <Text onPress={removeToken} >LogOut</Text>
     </View>
   );
 }

@@ -5,6 +5,8 @@ import {useNavigation} from '@react-navigation/core';
 import {useData, useTheme, useTranslation} from '../hooks/';
 import * as regex from '../constants/regex';
 import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
+import {api} from '../app/utility/apiService';
+import {Picker} from '@react-native-picker/picker';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -21,13 +23,15 @@ interface IRegistrationValidation {
   agreed: boolean;
 }
 
-const Register = (props:any) => {
-  const {data}= props
-  const navigation= useNavigation()
-  const [name,setName]=useState("")
-  const [email,setEmail]=useState("")
-  const [password,setPassword]=useState("")
-  const [terms,setTerms]=useState(false)
+const Register = (props: any) => {
+  const {data} = props;
+  const navigation = useNavigation();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [terms, setTerms] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState();
+  const [value, setValue] = useState([]);
   // const {isDark} = useData();
   const {t} = useTranslation();
   // const navigation = useNavigation();
@@ -68,12 +72,25 @@ const Register = (props:any) => {
   //     agreed: registration.agreed,
   //   }));
   // }, [registration, setIsValid]);
-  const handleSubmit=()=>{
-    console.log(name,email,password,terms);
-    
-  }
-  console.log(data,"ertyu");
+  useEffect(() => {
+    let dep = api
+      .get(`/getDep`)
+      .then((response: any) => {
+        // console.log(response?.data.data);
+        setValue(response?.data.data);
+      })
+      .catch((e) => {
+        console.log(e.message, 'err');
+      });
+  }, []);
+  // let arr = [value];
+  // console.log(arr);
   
+  const handleSubmit = () => {
+    console.log(name, email, password, terms);
+  };
+  // console.log(data, 'ertyu');
+
   return (
     <Block safe marginTop={sizes.md}>
       <Block paddingHorizontal={sizes.s}>
@@ -113,10 +130,9 @@ const Register = (props:any) => {
         <Block
           keyboard
           behavior={!isAndroid ? 'padding' : 'height'}
-          marginTop={-(sizes.height * 0.2 - sizes.l)}
-          >
+          marginTop={-(sizes.height * 0.2 - sizes.l)}>
           <Block
-          style={{bottom:20,top:-1}}
+            style={{bottom: 20, top: -1}}
             flex={0}
             radius={sizes.sm}
             marginHorizontal="8%"
@@ -230,7 +246,7 @@ const Register = (props:any) => {
                   // success={Boolean(registration.password && isValid.password)}
                   // danger={Boolean(registration.password && !isValid.password)}
                 />
-                <Input
+                {/* <Input
                   secondary
                   autoCapitalize="none"
                   marginBottom={sizes.m}
@@ -240,13 +256,40 @@ const Register = (props:any) => {
                   // danger={Boolean(registration.name && !isValid.name)}
                   // onChangeText={(value) => handleChange({name: value})}
                   onChangeText={(value) => setName(value)}
-                />
+                /> */}
+                <Text style={{ fontSize:29, fontWeight:"900"}}>Department</Text>
+                <Picker
+                style={styles.textD}
+                  selectedValue={selectedLanguage}
+                  mode="dropdown"
+                  // translation=""
+                  placeholder='Select department'
+                  //  translation={{
+                  //       PLACEHOLDER: "Select an item"
+                  //     }}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setSelectedLanguage(itemValue)
+                    
+                  }>
+                    <Picker.Item label='Select department' value={null} enabled={false}/>
+                  {value.map((items) => {
+                    return (
+                      <Picker.Item
+                      // translation={{
+                      //   PLACEHOLDER: "Select an item"
+                      // }}
+                        label={items?.department}
+                        value={items?._id}
+                      />
+                    );
+                  })}
+                </Picker>
                 <Input
                   secondary
                   autoCapitalize="none"
                   marginBottom={sizes.m}
                   label={'Register Number'}
-                  placeholder={"Register Number"}
+                  placeholder={'Register Number'}
                   // success={Boolean(registration.name && isValid.name)}
                   // danger={Boolean(registration.name && !isValid.name)}
                   // onChangeText={(value) => handleChange({name: value})}
@@ -279,7 +322,7 @@ const Register = (props:any) => {
                 marginHorizontal={sizes.sm}
                 gradient={gradients.secondary}
                 // disabled={Object.values(isValid).includes(false)}
-                >
+              >
                 <Text bold white transform="uppercase">
                   {t('common.signup')}
                 </Text>
@@ -290,8 +333,7 @@ const Register = (props:any) => {
                 shadow={!isAndroid}
                 marginVertical={sizes.s}
                 marginHorizontal={sizes.sm}
-                onPress={() => navigation.navigate('Login')}
-                >
+                onPress={() => navigation.navigate('Login')}>
                 <Text bold secondary transform="uppercase">
                   {t('common.signin')}
                 </Text>
@@ -307,10 +349,16 @@ const Register = (props:any) => {
 export default Register;
 
 const styles = StyleSheet.create({
-  text:{
-    padding:2,
-    borderWidth:0.3,
-    height:40
+  text: {
+    padding: 2,
+    borderWidth: 0.3,
+    height: 40,
+  },
+  dropdown:{
+    borderWidth:0.2,
+    // borderBottomColor:"red"
+  },
+  textD:{
+    fontWeight:"bold"
   }
-})
-
+});

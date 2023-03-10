@@ -14,7 +14,7 @@ export default () => {
 
   return (
     <Stack.Navigator screenOptions={screenOptions.stack}>
-      {/* <Stack.Screen
+      <Stack.Screen
         name="Home"
         component={Home}
         options={{title: t('navigation.home')}}
@@ -30,7 +30,7 @@ export default () => {
         name="Articles"
         component={Articles}
         options={{title: t('navigation.articles')}}
-      /> */}
+      />
 
       {/* <Stack.Screen
         name="Profile"

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Platform, StatusBar} from 'react-native';
 import {useFonts} from 'expo-font';
 import AppLoading from 'expo-app-loading';
@@ -7,17 +7,29 @@ import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import Menu from './Menu';
 import {useData, ThemeProvider, TranslationProvider} from '../hooks';
 import Auth from './Auth';
+import { getToken } from '../app/auth/Store';
+import jwtDecode from 'jwt-decode';
 
 export default () => {
   const {isDark, theme, setTheme} = useData();
+  const [Token,setToken]=useState("")
 
   /* set the status bar based on isDark constant */
   useEffect(() => {
     Platform.OS === 'android' && StatusBar.setTranslucent(true);
     StatusBar.setBarStyle(isDark ? 'light-content' : 'dark-content');
+    const reStroeToken=async()=>{
+      let newToken= await getToken()
+      setToken(newToken)
+      // let token= jwtDecode(newToken)
+      // console.log(token,"token");
+      
+    }
+    reStroeToken()
     return () => {
       StatusBar.setBarStyle('default');
     };
+    
   }, [isDark]);
 
   // load custom fonts
@@ -47,12 +59,14 @@ export default () => {
     },
   };
 
+
   return (
     <TranslationProvider>
       <ThemeProvider theme={theme} setTheme={setTheme}>
         <NavigationContainer theme={navigationTheme}>
+          {!Token?<Auth/>:<Menu />}
           {/* <Menu /> */}
-          <Auth/>
+          {/* <Auth/> */}
         </NavigationContainer>
       </ThemeProvider>
     </TranslationProvider>

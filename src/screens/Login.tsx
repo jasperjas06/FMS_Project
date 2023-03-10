@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Linking, Platform, StyleSheet, TextInput, View} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 // import {AsyncStorage} from 'react-native'
@@ -6,6 +6,9 @@ import {useData, useTheme, useTranslation} from '../hooks/';
 import * as regex from '../constants/regex';
 import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
 import { api } from '../app/utility/apiService';
+import {getToken, storeToken} from '../app/auth/Store.js'
+import jwtDecode from 'jwt-decode'
+
 // import { api } from '../utilities/apiService';
 // import { logIn } from '../utilities/apiService';
 
@@ -27,6 +30,7 @@ interface IRegistrationValidation {
 }
 
 const Login = () => {
+  // const authContext=useContext()
     const navigation= useNavigation()
   const [data,setData]=useState([])
   const [email,setEmail]=useState("")
@@ -76,6 +80,9 @@ const Login = () => {
     api.post(`/login`,{"email":email,"password":password})
     .then((response:any)=>{
       console.log(response?.data);
+      if(response){
+        storeToken(response?.data.token)
+      }
     })
     .catch((e)=>{
       console.log(e.message,"err");
@@ -83,19 +90,19 @@ const Login = () => {
     })
 
   }
+  // let newtoken= getToken()
+  // console.log(newtoken,"token");
   useEffect(()=>{
-    let dep= api.get(`/getDep`)
-    .then((response:any)=>{
-        console.log(response?.data.data);
-        setData(response?.data.data)
-      })
-      .catch((e)=>{
-        console.log(e.message,"err");
-        
-      })
-    //   console.log(dep);
+    const reStroeToken=async()=>{
+      let newToken= await getToken()
+      let token= jwtDecode(newToken)
+      console.log(token,"token");
       
+    }
+    reStroeToken()
   },[])
+  
+
 
   // export const value=data ;
   return (
