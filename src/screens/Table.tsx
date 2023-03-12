@@ -6,8 +6,12 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {Picker} from '@react-native-picker/picker';
 import { api, dep } from '../app/utility/apiService';
 import { removeToken } from '../app/auth/Store';
+import AuthContext from '../app/auth/authContext';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as SecureStore from 'expo-secure-store'
 export default function Table() {
   const [selectedLanguage, setSelectedLanguage] = useState();
+  // const [user,setUser]=React.useContext(AuthContext);
   const [selected, setSelected] = React.useState('');
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState();
@@ -82,6 +86,15 @@ export default function Table() {
   const logOut=()=>{
 
   }
+  const hadlePress=async()=>{
+    let key = "authToken"
+    try {
+      SecureStore.deleteItemAsync(key)
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
   
   return (
     <View>
@@ -126,7 +139,10 @@ export default function Table() {
             })}
 
       </Picker> */}
-      <Text onPress={removeToken} >LogOut</Text>
+      <TouchableOpacity >
+        
+      <Text onPress={hadlePress} >LogOut</Text>
+      </TouchableOpacity>
     </View>
   );
 }

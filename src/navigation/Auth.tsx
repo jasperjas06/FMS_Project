@@ -7,6 +7,7 @@ import Login from "../screens/Login";
 const Stack = createStackNavigator();
 const Auth = ({ params = {} }) => {
   return (
+
       <Stack.Navigator>
       <Stack.Screen
         name="Login"

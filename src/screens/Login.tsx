@@ -8,6 +8,7 @@ import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
 import { api } from '../app/utility/apiService';
 import {getToken, storeToken} from '../app/auth/Store.js'
 import jwtDecode from 'jwt-decode'
+import AuthContext from '../app/auth/authContext';
 
 // import { api } from '../utilities/apiService';
 // import { logIn } from '../utilities/apiService';
@@ -30,7 +31,8 @@ interface IRegistrationValidation {
 }
 
 const Login = () => {
-  // const authContext=useContext()
+  // const authContext=useContext(AuthContext)
+  const [loginFaild, setLoginFaild]=useState(false)
     const navigation= useNavigation()
   const [data,setData]=useState([])
   const [email,setEmail]=useState("")
@@ -77,12 +79,21 @@ const Login = () => {
   //   }));
   // }, [registration, setIsValid]);
   const handleSubmit=()=>{
+    // console.log(email);
+    
     api.post(`/login`,{"email":email,"password":password})
     .then((response:any)=>{
-      console.log(response?.data);
-      if(response){
-        storeToken(response?.data.token)
-      }
+      console.log(response.data);
+    if(!response.ok) return setLoginFaild(true);
+
+    setLoginFaild(false);
+    const user=jwtDecode(response.data)
+    console.log(user);
+    // AuthContext.setToken(user)
+    storeToken(response.data)
+    // console.log(response);
+    // console.log("token");
+      
     })
     .catch((e)=>{
       console.log(e.message,"err");
@@ -92,15 +103,15 @@ const Login = () => {
   }
   // let newtoken= getToken()
   // console.log(newtoken,"token");
-  useEffect(()=>{
-    const reStroeToken=async()=>{
-      let newToken= await getToken()
-      let token= jwtDecode(newToken)
-      console.log(token,"token");
+  // useEffect(()=>{
+  //   const reStroeToken=async()=>{
+  //     let newToken= await getToken()
+  //     let token= jwtDecode(newToken)
+  //     // console.log(token,"token");
       
-    }
-    reStroeToken()
-  },[])
+  //   }
+  //   reStroeToken()
+  // },[])
   
 
 
@@ -243,9 +254,9 @@ const Login = () => {
                 <Input
                   autoCapitalize="none"
                   marginBottom={sizes.m}
-                  label={t('common.email')}
+                  label={"t('common.email')"}
                   keyboardType="email-address"
-                  placeholder={t('common.emailPlaceholder')}
+                  placeholder={"t('common.emailPlaceholder')"}
                   onChangeText={(value) => setEmail(value)}
                   // success={Boolean(registration.email && isValid.email)}
                   // danger={Boolean(registration.email && !isValid.email)}
@@ -255,8 +266,8 @@ const Login = () => {
                   secureTextEntry
                   autoCapitalize="none"
                   marginBottom={sizes.m}
-                  label={t('common.password')}
-                  placeholder={t('common.passwordPlaceholder')}
+                  label={"t('common.password')"}
+                  placeholder={"t('common.passwordPlaceholder')"}
                   onChangeText={(value) => setPassword(value)}
                   // onChangeText={(value) => handleChange({password: value})}
                   // success={Boolean(registration.password && isValid.password)}
@@ -291,7 +302,7 @@ const Login = () => {
                 // disabled={Object.values(isValid).includes(false)}
                 >
                 <Text bold white transform="uppercase">
-                  {t('common.signin')}
+                  {"t('common.signin')"}
                 </Text>
               </Button>
               <Button

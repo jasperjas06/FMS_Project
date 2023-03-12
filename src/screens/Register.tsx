@@ -218,7 +218,7 @@ const Register = (props: any) => {
                   autoCapitalize="none"
                   marginBottom={sizes.m}
                   label={'Name'}
-                  placeholder={t('common.namePlaceholder')}
+                  placeholder={"t('common.namePlaceholder')"}
                   // success={Boolean(registration.name && isValid.name)}
                   // danger={Boolean(registration.name && !isValid.name)}
                   // onChangeText={(value) => handleChange({name: value})}
@@ -227,9 +227,9 @@ const Register = (props: any) => {
                 <Input
                   autoCapitalize="none"
                   marginBottom={sizes.m}
-                  label={t('common.email')}
+                  label={"t('common.email')"}
                   keyboardType="email-address"
-                  placeholder={t('common.emailPlaceholder')}
+                  placeholder={"t('common.emailPlaceholder')"}
                   onChangeText={(value) => setEmail(value)}
                   // success={Boolean(registration.email && isValid.email)}
                   // danger={Boolean(registration.email && !isValid.email)}
@@ -239,8 +239,8 @@ const Register = (props: any) => {
                   secureTextEntry
                   autoCapitalize="none"
                   marginBottom={sizes.m}
-                  label={t('common.password')}
-                  placeholder={t('common.passwordPlaceholder')}
+                  label={"t('common.password')"}
+                  placeholder={"t('common.passwordPlaceholder')"}
                   onChangeText={(value) => setPassword(value)}
                   // onChangeText={(value) => handleChange({password: value})}
                   // success={Boolean(registration.password && isValid.password)}
@@ -305,13 +305,13 @@ const Register = (props: any) => {
                   onPress={(value) => setTerms(value)}
                 />
                 <Text paddingRight={sizes.s}>
-                  {t('common.agree')}
+                  {"t('common.agree')"}
                   <Text
                     semibold
                     onPress={() => {
                       Linking.openURL('https://www.creative-tim.com/terms');
                     }}>
-                    {t('common.terms')}
+                    {"t('common.terms')"}
                   </Text>
                 </Text>
               </Block> */}
@@ -324,7 +324,7 @@ const Register = (props: any) => {
                 // disabled={Object.values(isValid).includes(false)}
               >
                 <Text bold white transform="uppercase">
-                  {t('common.signup')}
+                  {"t('common.signup')"}
                 </Text>
               </Button>
               <Button
@@ -335,7 +335,7 @@ const Register = (props: any) => {
                 marginHorizontal={sizes.sm}
                 onPress={() => navigation.navigate('Login')}>
                 <Text bold secondary transform="uppercase">
-                  {t('common.signin')}
+                  {"t('common.signin')"}
                 </Text>
               </Button>
             </Block>
