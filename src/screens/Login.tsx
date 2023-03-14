@@ -87,10 +87,10 @@ const Login = () => {
     if(!response.ok) return setLoginFaild(true);
 
     setLoginFaild(false);
-    const user=jwtDecode(response.data)
+    const user=jwtDecode(response.data.token)
     console.log(user);
     // AuthContext.setToken(user)
-    storeToken(response.data)
+    storeToken(response.data.token)
     // console.log(response);
     // console.log("token");
       
@@ -254,9 +254,9 @@ const Login = () => {
                 <Input
                   autoCapitalize="none"
                   marginBottom={sizes.m}
-                  label={"t('common.email')"}
+                  label={"Email"}
                   keyboardType="email-address"
-                  placeholder={"t('common.emailPlaceholder')"}
+                  placeholder={"Enter Your Email"}
                   onChangeText={(value) => setEmail(value)}
                   // success={Boolean(registration.email && isValid.email)}
                   // danger={Boolean(registration.email && !isValid.email)}
@@ -266,8 +266,8 @@ const Login = () => {
                   secureTextEntry
                   autoCapitalize="none"
                   marginBottom={sizes.m}
-                  label={"t('common.password')"}
-                  placeholder={"t('common.passwordPlaceholder')"}
+                  label={"Password"}
+                  placeholder={"Enter Your Password"}
                   onChangeText={(value) => setPassword(value)}
                   // onChangeText={(value) => handleChange({password: value})}
                   // success={Boolean(registration.password && isValid.password)}
@@ -302,7 +302,7 @@ const Login = () => {
                 // disabled={Object.values(isValid).includes(false)}
                 >
                 <Text bold white transform="uppercase">
-                  {"t('common.signin')"}
+                  {"sigin"}
                 </Text>
               </Button>
               <Button

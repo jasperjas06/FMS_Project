@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 //   return
 // }
 export const api=create({
-  baseURL:"http://192.168.198.133:9870/api/",
+  baseURL:"http://192.168.1.6:9870/api/",
   headers:{
     "Content-Type":"application/json",
     

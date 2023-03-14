@@ -218,7 +218,7 @@ const Register = (props: any) => {
                   autoCapitalize="none"
                   marginBottom={sizes.m}
                   label={'Name'}
-                  placeholder={"t('common.namePlaceholder')"}
+                  placeholder={t('common.namePlaceholder')}
                   // success={Boolean(registration.name && isValid.name)}
                   // danger={Boolean(registration.name && !isValid.name)}
                   // onChangeText={(value) => handleChange({name: value})}
@@ -227,9 +227,9 @@ const Register = (props: any) => {
                 <Input
                   autoCapitalize="none"
                   marginBottom={sizes.m}
-                  label={"t('common.email')"}
+                  label={t('common.email')}
                   keyboardType="email-address"
-                  placeholder={"t('common.emailPlaceholder')"}
+                  placeholder={t('common.emailPlaceholder')}
                   onChangeText={(value) => setEmail(value)}
                   // success={Boolean(registration.email && isValid.email)}
                   // danger={Boolean(registration.email && !isValid.email)}
@@ -239,8 +239,8 @@ const Register = (props: any) => {
                   secureTextEntry
                   autoCapitalize="none"
                   marginBottom={sizes.m}
-                  label={"t('common.password')"}
-                  placeholder={"t('common.passwordPlaceholder')"}
+                  label={t('common.password')}
+                  placeholder={t('common.passwordPlaceholder')}
                   onChangeText={(value) => setPassword(value)}
                   // onChangeText={(value) => handleChange({password: value})}
                   // success={Boolean(registration.password && isValid.password)}
@@ -258,6 +258,7 @@ const Register = (props: any) => {
                   onChangeText={(value) => setName(value)}
                 /> */}
                 <Text style={{ fontSize:29, fontWeight:"900"}}>Department</Text>
+                <View style={styles.pick}>
                 <Picker
                 style={styles.textD}
                   selectedValue={selectedLanguage}
@@ -272,9 +273,10 @@ const Register = (props: any) => {
                     
                   }>
                     <Picker.Item label='Select department' value={null} enabled={false}/>
-                  {value.map((items) => {
+                  {value.map((items,index) => {
                     return (
                       <Picker.Item
+                      key={index}
                       // translation={{
                       //   PLACEHOLDER: "Select an item"
                       // }}
@@ -284,6 +286,7 @@ const Register = (props: any) => {
                     );
                   })}
                 </Picker>
+                </View>
                 <Input
                   secondary
                   autoCapitalize="none"
@@ -324,7 +327,7 @@ const Register = (props: any) => {
                 // disabled={Object.values(isValid).includes(false)}
               >
                 <Text bold white transform="uppercase">
-                  {"t('common.signup')"}
+                  {t('common.signup')}
                 </Text>
               </Button>
               <Button
@@ -335,7 +338,7 @@ const Register = (props: any) => {
                 marginHorizontal={sizes.sm}
                 onPress={() => navigation.navigate('Login')}>
                 <Text bold secondary transform="uppercase">
-                  {"t('common.signin')"}
+                  {t('common.signin')}
                 </Text>
               </Button>
             </Block>
@@ -359,6 +362,13 @@ const styles = StyleSheet.create({
     // borderBottomColor:"red"
   },
   textD:{
-    fontWeight:"bold"
+
+  },
+  pick:{
+    borderWidth:0.3,
+    borderRadius:5,
+    height:45,
+    margin:4,
+    marginBottom:20
   }
 });

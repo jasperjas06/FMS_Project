@@ -13,7 +13,7 @@ import AuthContext from '../app/auth/authContext';
 
 export default () => {
   const {isDark, theme, setTheme} = useData();
-  const [Token,setToken]=useState("")
+  const [Token,setToken]=useState(null)
 
   /* set the status bar based on isDark constant */
   useEffect(() => {
@@ -27,17 +27,19 @@ export default () => {
       
     // }
     // reStroeToken()
+    const restoreToken=async()=>{
+      const token=await getToken()
+      if(!token) return
+      setToken(jwtDecode(token))
+  }
     restoreToken()
     return () => {
       StatusBar.setBarStyle('default');
     };
     
   }, [isDark,Token]);
-  const restoreToken=async()=>{
-    const token=await getToken()
-    if(!token) return
-    setToken(jwtDecode(token))
-}
+
+// console.log(Token);
 
   // load custom fonts
   const [fontsLoaded] = useFonts({
