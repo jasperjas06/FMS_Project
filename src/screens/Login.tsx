@@ -7,7 +7,8 @@ import * as regex from '../constants/regex';
 import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
 import { api } from '../app/utility/apiService';
 import {getToken, storeToken} from '../app/auth/Store.js'
-import jwtDecode from 'jwt-decode'
+// import jwtDecode from 'jwt-decode'
+import jwt_decode from "jwt-decode";
 import AuthContext from '../app/auth/authContext';
 
 // import { api } from '../utilities/apiService';
@@ -83,16 +84,22 @@ const Login = () => {
     
     api.post(`/login`,{"email":email,"password":password})
     .then((response:any)=>{
+      
+      
       console.log(response.data);
-    if(!response.ok) return setLoginFaild(true);
+    // if(!response.ok) return setLoginFaild(true);
 
-    setLoginFaild(false);
-    const user=jwtDecode(response.data.token)
-    console.log(user);
-    // AuthContext.setToken(user)
-    storeToken(response.data.token)
-    // console.log(response);
-    // console.log("token");
+    // setLoginFaild(false);
+    console.log("abc");
+    const decode= jwt_decode(response.data)
+    // const data01= JSON.stringify(response.data.token)
+    console.log(decode);
+    
+    // const user=jwtDecode(response.data.token)
+    // console.log(user);
+    
+    storeToken(response.data)
+
       
     })
     .catch((e)=>{

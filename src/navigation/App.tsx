@@ -37,9 +37,9 @@ export default () => {
       StatusBar.setBarStyle('default');
     };
     
-  }, [isDark,Token]);
+  }, [isDark]);
 
-// console.log(Token);
+// console.log(Token,"dfghj");
 
   // load custom fonts
   const [fontsLoaded] = useFonts({
