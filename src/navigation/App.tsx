@@ -9,6 +9,7 @@ import {useData, ThemeProvider, TranslationProvider} from '../hooks';
 import Auth from './Auth';
 import { getToken } from '../app/auth/Store';
 import jwtDecode from 'jwt-decode';
+import AuthContext from '../app/auth/authContext';
 
 export default () => {
   const {isDark, theme, setTheme} = useData();
@@ -18,19 +19,25 @@ export default () => {
   useEffect(() => {
     Platform.OS === 'android' && StatusBar.setTranslucent(true);
     StatusBar.setBarStyle(isDark ? 'light-content' : 'dark-content');
-    const reStroeToken=async()=>{
-      let newToken= await getToken()
-      setToken(newToken)
-      // let token= jwtDecode(newToken)
-      // console.log(token,"token");
+    // const reStroeToken=async()=>{
+    //   let newToken= await getToken()
+    //   setToken(newToken)
+    //   // let token= jwtDecode(newToken)
+    //   // console.log(token,"token");
       
-    }
-    reStroeToken()
+    // }
+    // reStroeToken()
+    restoreToken()
     return () => {
       StatusBar.setBarStyle('default');
     };
     
-  }, [isDark]);
+  }, [isDark,Token]);
+  const restoreToken=async()=>{
+    const token=await getToken()
+    if(!token) return
+    setToken(jwtDecode(token))
+}
 
   // load custom fonts
   const [fontsLoaded] = useFonts({
@@ -60,13 +67,16 @@ export default () => {
   };
 
 
+
   return (
     <TranslationProvider>
       <ThemeProvider theme={theme} setTheme={setTheme}>
         <NavigationContainer theme={navigationTheme}>
-          {!Token?<Auth/>:<Menu />}
+        {/* <AuthContext.Provider value={{Token,setToken}}> */}
+          {Token?<Menu  />:<Auth />}
           {/* <Menu /> */}
           {/* <Auth/> */}
+          {/* </AuthContext.Provider> */}
         </NavigationContainer>
       </ThemeProvider>
     </TranslationProvider>
