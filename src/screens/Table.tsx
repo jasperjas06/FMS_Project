@@ -9,7 +9,10 @@ import { removeToken } from '../app/auth/Store';
 import AuthContext from '../app/auth/authContext';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as SecureStore from 'expo-secure-store'
+// import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/core';
 export default function Table() {
+  const navigation = useNavigation()
   const [selectedLanguage, setSelectedLanguage] = useState();
   // const [user,setUser]=React.useContext(AuthContext);
   const [selected, setSelected] = React.useState('');
@@ -90,6 +93,9 @@ export default function Table() {
     let key = "authToken"
     try {
       SecureStore.deleteItemAsync(key)
+      console.log("deleted");
+      // navigation.navigate('Login')
+      
     } catch (error) {
       console.log(error);
       

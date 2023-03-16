@@ -32,75 +32,26 @@ interface IRegistrationValidation {
 }
 
 const Login = () => {
-  // const authContext=useContext(AuthContext)
-  const [loginFaild, setLoginFaild]=useState(false)
+
     const navigation= useNavigation()
   const [data,setData]=useState([])
   const [email,setEmail]=useState("")
   const [password,setPassword]=useState("")
-//   const [terms,setTerms]=useState(false)
-  // const {isDark} = useData();
+
   const {t} = useTranslation();
-  // const navigation = useNavigation();
-  // const [isValid, setIsValid] = useState<IRegistrationValidation>({
-  //   name: false,
-  //   email: false,
-  //   password: false,
-  //   agreed: false,
-  // });
-  // const [registration, setRegistration] = useState<IRegistration>({
-  //   name: '',
-  //   email: '',
-  //   password: '',
-  //   agreed: false,
-  // });
+
   const {assets, colors, gradients, sizes} = useTheme();
 
-  // const handleChange = useCallback(
-  //   (value) => {
-  //     setRegistration((state) => ({...state, ...value}));
-  //   },
-  //   [setRegistration],
-  // );
 
-  // const handleSignUp = useCallback(() => {
-  //   if (!Object.values(isValid).includes(false)) {
-  //     /** send/save registratin data */
-  //     console.log('handleSignUp', registration);
-  //   }
-  // }, [isValid, registration]);
-
-  // useEffect(() => {
-  //   setIsValid((state) => ({
-  //     ...state,
-  //     name: regex.name.test(registration.name),
-  //     email: regex.email.test(registration.email),
-  //     password: regex.password.test(registration.password),
-  //     agreed: registration.agreed,
-  //   }));
-  // }, [registration, setIsValid]);
   const handleSubmit=()=>{
-    // console.log(email);
+
     
     api.post(`/login`,{"email":email,"password":password})
     .then((response:any)=>{
-      
-      
       console.log(response.data);
-    // if(!response.ok) return setLoginFaild(true);
-
-    // setLoginFaild(false);
     console.log("abc");
     const decode= jwt_decode(response.data)
-    // const data01= JSON.stringify(response.data.token)
-    console.log(decode);
-    
-    // const user=jwtDecode(response.data.token)
-    // console.log(user);
-    
-    storeToken(response.data)
-
-      
+  
     })
     .catch((e)=>{
       console.log(e.message,"err");
@@ -108,21 +59,7 @@ const Login = () => {
     })
 
   }
-  // let newtoken= getToken()
-  // console.log(newtoken,"token");
-  // useEffect(()=>{
-  //   const reStroeToken=async()=>{
-  //     let newToken= await getToken()
-  //     let token= jwtDecode(newToken)
-  //     // console.log(token,"token");
-      
-  //   }
-  //   reStroeToken()
-  // },[])
-  
 
-
-  // export const value=data ;
   return (
     <Block safe marginTop={sizes.md} >
       <Block paddingHorizontal={sizes.s}>
