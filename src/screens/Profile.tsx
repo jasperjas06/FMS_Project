@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/core';
 
 import {Block, Button, Image, Text} from '../components/';
 import {useData, useTheme, useTranslation} from '../hooks/';
+import {DataTable} from 'react-native-paper';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -36,6 +37,38 @@ const Profile = () => {
     },
     [user],
   );
+  const data = [
+    {
+      id: 1,
+      name: 'jasper',
+      food: 'xyz',
+      age: '23',
+    },
+    {
+      id: 2,
+      name: 'mathi',
+      food: 'xyz',
+      age: '23',
+    },
+    {
+      id: 3,
+      name: 'velava',
+      food: 'xyz',
+      age: '23',
+    },
+    {
+      id: 4,
+      name: 'sanjay',
+      food: 'xyz',
+      age: '23',
+    },
+    {
+      id: 5,
+      name: 'deva',
+      food: 'xyz',
+      age: '23',
+    },
+  ];
 
   return (
     <Block safe marginTop={sizes.md}>
@@ -52,7 +85,7 @@ const Profile = () => {
             paddingBottom={sizes.l}
             radius={sizes.cardRadius}
             // source={assets.card5}
-            >
+          >
             <Button
               row
               flex={0}
@@ -85,52 +118,27 @@ const Profile = () => {
               <Text p center black>
                 {user?.department}
               </Text>
-              <Block row marginVertical={sizes.m}>
-                {/* <Button
-                  black
-                  outlined
-                  shadow={false}
-                  radius={sizes.m}
-                  onPress={() => {
-                    alert(`Follow ${user?.name}`);
-                  }}>
-                  <Block
-                    justify="center"
-                    radius={sizes.m}
-                    paddingHorizontal={sizes.m}
-                    color="rgba(255,255,255,0.2)">
-                    <Text black bold transform="uppercase">
-                      {t('common.follow')}
-                    </Text>
-                  </Block>
-                </Button> */}
-                {/* <Button
-                  shadow={false}
-                  radius={sizes.m}
-                  marginHorizontal={sizes.sm}
-                  color="rgba(255,255,255,0.2)"
-                  outlined={String(colors.black)}
-                  onPress={() => handleSocialLink('twitter')}>
-                  <Ionicons
-                    size={18}
-                    name="logo-twitter"
-                    color={colors.black}
-                  />
-                </Button> */}
-                {/* <Button
-                  shadow={false}
-                  radius={sizes.m}
-                  color="rgba(255,255,255,0.2)"
-                  outlined={String(colors.black)}
-                  onPress={() => handleSocialLink('dribbble')}>
-                  <Ionicons
-                    size={18}
-                    name="logo-dribbble"
-                    color={colors.black}
-                  />
-                </Button> */}
+              {/* <Block row marginVertical={sizes.m}> */}
+                <Text>Fines</Text>
+                <DataTable>
+                  <DataTable.Header>
+                    <DataTable.Title>Sl</DataTable.Title>
+                    <DataTable.Title>Name</DataTable.Title>
+                    <DataTable.Title>FavouriteFood</DataTable.Title>
+                    <DataTable.Title>Age</DataTable.Title>
+                  </DataTable.Header>
+
+                  {data.map((item, index) => (
+                    <DataTable.Row key={index}>
+                      <DataTable.Cell>{index + 1}</DataTable.Cell>
+                      <DataTable.Cell>{item.name}</DataTable.Cell>
+                      <DataTable.Cell>{item.food}</DataTable.Cell>
+                      <DataTable.Cell>{item.age}</DataTable.Cell>
+                    </DataTable.Row>
+                  ))}
+                </DataTable>
               </Block>
-            </Block>
+            {/* </Block> */}
           </Image>
 
           {/* profile: stats */}

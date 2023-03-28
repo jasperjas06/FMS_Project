@@ -49,9 +49,9 @@
     }
   },
   "app": {
-    "name": "Soft UI",
-    "fullname": "Soft UI Kit",
-    "native": "React Native",
+    "name": "Jasper",
+    "fullname": "FMS",
+    "native": "FMS",
     "link": "creative-tim.com"
   },
   "darkMode": "Dark Mode",
@@ -66,10 +66,10 @@
     "extra": "Extra - Automotive"
   },
   "navigation": {
-    "home": "Soft UI",
+    "home": "FMS",
     "components": "Components",
-    "articles": "Soft UI",
-    "rentals": "Soft UI",
+    "articles": "FMS",
+    "rentals": "FMS",
     "rental": "Best Deal",
     "booking": "Booking",
     "chat": "Chat",

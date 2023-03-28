@@ -3,9 +3,11 @@ import {Platform, StatusBar} from 'react-native';
 import {useFonts} from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
-import Menu from './Menu';
+
 import {useData, ThemeProvider, TranslationProvider} from '../hooks';
 import Auth from './Auth';
+import Menu from './Menu';
+
 
 
 export default () => {

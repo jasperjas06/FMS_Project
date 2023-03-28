@@ -103,7 +103,7 @@ export default function Table() {
   }
   
   return (
-    <View>
+    <View style={{top:25}}>
       <Text>Table</Text>
       <DataTable>
         <DataTable.Header>
@@ -114,8 +114,8 @@ export default function Table() {
         </DataTable.Header>
 
         {data.map((item, index) => (
-          <DataTable.Row>
-            <DataTable.Cell>{index + 1}</DataTable.Cell>
+          <DataTable.Row key={index}>
+            <DataTable.Cell>{index +1}</DataTable.Cell>
             <DataTable.Cell>{item.name}</DataTable.Cell>
             <DataTable.Cell>{item.food}</DataTable.Cell>
             <DataTable.Cell>{item.age}</DataTable.Cell>

@@ -2,10 +2,8 @@ import 'react-native-gesture-handler';
 import React from 'react';
 
 import {DataProvider} from './src/hooks';
-import AppNavigation from './src/navigation/App';
-import { getToken } from './src/app/auth/Store';
-import jwtDecode from 'jwt-decode';
-import Auth from './src/navigation/Auth';
+import AppNavigation from './src/navigation/App.js';
+
 
 export default function App() {
 

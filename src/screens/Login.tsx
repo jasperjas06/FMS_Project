@@ -44,8 +44,6 @@ const Login = () => {
 
 
   const handleSubmit=()=>{
-
-    
     api.post(`/login`,{"email":email,"password":password})
     .then((response:any)=>{
       console.log(response.data);
@@ -57,7 +55,6 @@ const Login = () => {
       console.log(e.message,"err");
       
     })
-
   }
 
   return (

@@ -40,7 +40,7 @@ export default () => {
     ),
     headerRight: () => (
       <Block row flex={0} align="center" marginRight={sizes.padding}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{marginRight: sizes.sm}}
           onPress={() =>
             navigation.navigate('Screens', {
@@ -80,7 +80,7 @@ export default () => {
               3
             </Text>
           </Block>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </Block>
     ),
   } as StackHeaderOptions;

@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Linking, Platform, StyleSheet, TextInput, View} from 'react-native';
+import {Linking, Platform, StyleSheet, TextInput, View,ToastAndroid} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 
 import {useData, useTheme, useTranslation} from '../hooks/';
@@ -7,6 +7,7 @@ import * as regex from '../constants/regex';
 import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
 import {api} from '../app/utility/apiService';
 import {Picker} from '@react-native-picker/picker';
+// import Toast from 'react-native-toast-message';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -30,8 +31,9 @@ const Register = (props: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [terms, setTerms] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState();
+  const [selectedDepartment, setSelectedDepartment] = useState();
   const [value, setValue] = useState([]);
+  const [regNo, setRegNo] = useState('');
   // const {isDark} = useData();
   const {t} = useTranslation();
   // const navigation = useNavigation();
@@ -87,10 +89,24 @@ const Register = (props: any) => {
   // console.log(arr);
   
   const handleSubmit = () => {
-    console.log(name, email, password, terms);
+    // console.log(name, email, password, selectedDepartment, regNo);
+    api.post(`student/register`,{name:name,email:email,password:password,department:selectedDepartment,RegNo:regNo})
+    .then((response:any)=>{
+      if(response.ok){
+        ToastAndroid.show(response.data?.message,ToastAndroid.SHORT)
+        // Toast.show({
+        //   type:'success',
+        //   text1:response.data?.message
+        // })
+        // alert(response.data?.message) 
+      }
+      else
+      ToastAndroid.show(response.data?.message,ToastAndroid.SHORT)
+    })
+    .catch((e)=>{
+      console.log(e.message,"err"); 
+    })
   };
-  // console.log(data, 'ertyu');
-
   return (
     <Block safe marginTop={sizes.md}>
       <Block paddingHorizontal={sizes.s}>
@@ -261,7 +277,7 @@ const Register = (props: any) => {
                 <View style={styles.pick}>
                 <Picker
                 style={styles.textD}
-                  selectedValue={selectedLanguage}
+                  selectedValue={selectedDepartment}
                   mode="dropdown"
                   // translation=""
                   placeholder='Select department'
@@ -269,7 +285,7 @@ const Register = (props: any) => {
                   //       PLACEHOLDER: "Select an item"
                   //     }}
                   onValueChange={(itemValue, itemIndex) =>
-                    setSelectedLanguage(itemValue)
+                    setSelectedDepartment(itemValue)
                     
                   }>
                     <Picker.Item label='Select department' value={null} enabled={false}/>
@@ -277,9 +293,6 @@ const Register = (props: any) => {
                     return (
                       <Picker.Item
                       key={index}
-                      // translation={{
-                      //   PLACEHOLDER: "Select an item"
-                      // }}
                         label={items?.department}
                         value={items?._id}
                       />
@@ -296,7 +309,7 @@ const Register = (props: any) => {
                   // success={Boolean(registration.name && isValid.name)}
                   // danger={Boolean(registration.name && !isValid.name)}
                   // onChangeText={(value) => handleChange({name: value})}
-                  onChangeText={(value) => setName(value)}
+                  onChangeText={(value) => setRegNo(value)}
                 />
               </Block>
               {/* checkbox terms */}
@@ -345,6 +358,7 @@ const Register = (props: any) => {
           </Block>
         </Block>
       </Block>
+      {/* <Toast/> */}
     </Block>
   );
 };

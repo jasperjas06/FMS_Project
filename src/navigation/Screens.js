@@ -32,11 +32,11 @@ export default () => {
         options={{title: t('navigation.articles')}}
       />
 
-      {/* <Stack.Screen
+      <Stack.Screen
         name="Profile"
         component={Profile}
         options={{headerShown: false}}
-      /> */}
+      />
       <Stack.Screen
         name="Table"
         component={Table}
