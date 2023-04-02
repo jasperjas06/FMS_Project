@@ -5,6 +5,8 @@ import {Articles, Components, Home, Profile, Register, Pro} from '../screens';
 import {useScreenOptions, useTranslation} from '../hooks';
 import Login from '../screens/Login';
 import Table from '../screens/Table';
+import StaffRegister from '../screens/StaffRegister';
+import AddFine from '../screens/AddFine';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +43,16 @@ export default () => {
         name="Table"
         component={Table}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Staff"
+        component={StaffRegister}
+        options={{headerShown: true}}
+      />
+      <Stack.Screen
+        name="Fine"
+        component={AddFine}
+        options={{headerShown: true}}
       />
 
     </Stack.Navigator>

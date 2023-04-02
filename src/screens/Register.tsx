@@ -93,10 +93,7 @@ const Register = (props: any) => {
     api.post(`student/register`,{name:name,email:email,password:password,department:selectedDepartment,RegNo:regNo})
     .then((response:any)=>{
       if(response.ok){
-        ToastAndroid.show(response.data?.message,ToastAndroid.SHORT
-          
-          
-          )
+        ToastAndroid.show(response.data?.message,ToastAndroid.SHORT)
         // Toast.show({
         //   type:'success',
         //   text1:response.data?.message

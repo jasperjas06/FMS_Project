@@ -85,11 +85,20 @@ const DrawerContent = (
   // screen list for Drawer menu
   const screens = [
     {name: t('screens.home'), to: 'Home', icon: assets.home},
-    // {name: t('screens.components'), to: 'Components', icon: assets.components},
+    {name: 'Staff_Reg', to: 'Staff', icon: assets.components},
+    {name: t('screens.articles'), to: 'Table', icon: assets.document},
+    {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
+    // {name: t('screens.register'), to: 'Register', icon: assets.register},
+    {name: 'Fine', to: 'Fine', icon: assets.menu},
+  ];
+
+  const screens1=[
+    {name: t('screens.home'), to: 'Home', icon: assets.home},
+    {name: 'Staff_Reg', to: 'Staff', icon: assets.components},
     {name: t('screens.articles'), to: 'Table', icon: assets.document},
     {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
     {name: t('screens.register'), to: 'Register', icon: assets.register},
-  ];
+  ]
 
   return (
     <DrawerContentScrollView
@@ -117,7 +126,6 @@ const DrawerContent = (
             </Text>
           </Block>
         </Block>
-
         {screens?.map((screen, index) => {
           const isActive = active === screen.to;
           return (
