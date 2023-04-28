@@ -7,6 +7,7 @@ import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {useData, ThemeProvider, TranslationProvider} from '../hooks';
 import Auth from './Auth';
 import Menu from './Menu';
+import {getToken} from '../app/auth/Store'
 
 
 
@@ -15,6 +16,14 @@ export default () => {
   const [Token,setToken]=useState(null)
 
   /* set the status bar based on isDark constant */
+  useEffect(()=>{
+    const Restore=async()=>{
+    let result= await getToken();
+    setToken(result)
+    // console.log(result,"res");
+  }
+  Restore()
+  },[Token])
 
 
 
@@ -44,17 +53,16 @@ export default () => {
     },
   };
 
-
-
   return (
     <TranslationProvider>
       <ThemeProvider theme={theme} setTheme={setTheme}>
         <NavigationContainer theme={navigationTheme}>
-          {/* {Token?<Menu  />:<Auth />} */}
-          <Menu/>
+          {Token?<Menu />:<Auth />}
+          {/* <Menu/> */}
           {/* <Auth/> */}
         </NavigationContainer>
       </ThemeProvider>
     </TranslationProvider>
   );
 };
+

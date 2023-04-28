@@ -4,9 +4,15 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Articles, Components, Home, Profile, Register, Pro} from '../screens';
 import {useScreenOptions, useTranslation} from '../hooks';
 import Login from '../screens/Login';
-import Table from '../screens/Table';
+import Table from '../screens/Table.js';
 import StaffRegister from '../screens/StaffRegister';
 import AddFine from '../screens/AddFine';
+import UpdateFine from '../screens/UpdateFine';
+import Department from '../screens/Department';
+import CraeteDep from '../screens/CraeteDep';
+import CreateFine from '../screens/CreateFine';
+import EditProfile from '../screens/EditProfile';
+import EditStudent from '../screens/EditStudent';
 
 const Stack = createStackNavigator();
 
@@ -53,6 +59,36 @@ export default () => {
         name="Fine"
         component={AddFine}
         options={{headerShown: true}}
+      />
+      <Stack.Screen
+        name="UpdateFine"
+        component={UpdateFine}
+        options={{headerShown: true}}
+      />
+      <Stack.Screen
+        name="Department"
+        component={Department}
+        options={{headerShown: true}}
+      />
+      <Stack.Screen
+        name="CreateDep"
+        component={CraeteDep}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="CreateFine"
+        component={CreateFine}
+        options={{headerShown: true}}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditStudent"
+        component={EditStudent}
+        options={{headerShown: false}}
       />
 
     </Stack.Navigator>

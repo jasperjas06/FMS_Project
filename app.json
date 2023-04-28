@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "rn-soft-ui-kit-free",
-    "slug": "rn-soft-ui-kit-free",
+    "name": "FMS",
+    "slug": "FMS",
     "description": "React Native - Soft UI Kit - Free",
-    "primaryColor": "#CB0C9F",
+    "primaryColor": "#fcfafc",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/rvscas.png",
     "splash": {
-      "image": "./assets/background2.png",
+      "image": "./assets/rvs.png",
       "resizeMode": "cover",
-      "backgroundColor": "#CB0C9F"
+      "backgroundColor": "#fcfafc"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

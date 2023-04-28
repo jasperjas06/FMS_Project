@@ -5,11 +5,14 @@ import {useNavigation} from '@react-navigation/core';
 import {useData, useTheme, useTranslation} from '../hooks/';
 import * as regex from '../constants/regex';
 import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
-import { api } from '../app/utility/apiService';
+import {  api, url } from '../app/utility/apiService';
 import {getToken, storeToken} from '../app/auth/Store.js'
+// import * as SecureStore from 'expo-secure-store';
 // import jwtDecode from 'jwt-decode'
 import jwt_decode from "jwt-decode";
 import AuthContext from '../app/auth/authContext';
+import axios from 'axios';
+import { login } from '../app/utility/apiService';
 
 // import { api } from '../utilities/apiService';
 // import { logIn } from '../utilities/apiService';
@@ -42,19 +45,44 @@ const Login = () => {
 
   const {assets, colors, gradients, sizes} = useTheme();
 
-
-  const handleSubmit=()=>{
-    api.post(`/login`,{"email":email,"password":password})
-    .then((response:any)=>{
-      console.log(response.data);
-    console.log("abc");
-    const decode= jwt_decode(response.data)
-  
-    })
-    .catch((e)=>{
-      console.log(e.message,"err");
+  // const secure=async()=>{
+  //   let result=await getToken()
+  //   console.log(result,'token');  
+  // }
+  // secure()
+  const handleSubmit=async()=>{
+    try {
+      // await axios.post(`${url}/login`,{"email":email,"password":password})
+      api.post(`login`,{email:email,password:password})
+      .then((res)=>{
+        // console.log(res);
+        if(res.ok){
+          const decode = jwt_decode(res.data)
+          // console.log(decode);
+          storeToken(res.data)
+          
+          // navigation.navigate('Home')
+        }
+        else{
+          alert(res.data)
+        }
+        
+      })
+    } catch (error) {
+      console.log(error,"err");
+    }
+    // api.post(`/login`,{"email":email,"password":password})
+    // .then((response:any)=>{
+    // if(response?.data){
+    //   const decode= jwt_decode(response.data)
+    //   console.log(decode);
+    //   storeToken(response.data)
+    // }
+    // })
+    // .catch((e)=>{
+    //   console.log(e.message,"err");
       
-    })
+    // })
   }
 
   return (

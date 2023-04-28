@@ -5,7 +5,7 @@ import {  Register } from "../screens";
 import Login from "../screens/Login";
 
 const Stack = createStackNavigator();
-const Auth = ({ params = {} }) => {
+const Auth = () => {
   return (
 
       <Stack.Navigator>

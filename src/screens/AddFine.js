@@ -5,19 +5,29 @@ import {useTheme} from '../hooks';
 import {Picker} from '@react-native-picker/picker';
 import {api} from '../app/utility/apiService';
 import Toast from "react-native-toast-message";
-
+import {useNavigation} from '@react-navigation/core';
+import { getToken } from '../app/auth/Store';
 function AddFine(props) {
   const {assets, colors, gradients, sizes} = useTheme();
   const [selectedDepartment, setSelectedDepartment] = React.useState();
   const [selectedFine, setSelectedFine] = React.useState();
   const [selectedRegNo, setSelectedRegNo] = React.useState();
   const [amount, setAmount] = React.useState('');
+  const [Token, setToken] = React.useState('');
   const [value, setValue] = React.useState([]);
   const [data, setData] = React.useState([]);
   const [fine, setFine] = React.useState([]);
   const [student, setStudent] = React.useState([]);
+  const navigation= useNavigation()
 
   React.useEffect(() => {
+    let getkey=async()=>{
+      let token = await getToken();
+      // console.log(token);
+      setToken(token)
+    }
+    getkey()
+   
     let dep = api
       .get(`/getDep`)
       .then((response) => {
@@ -47,24 +57,43 @@ function AddFine(props) {
         // console.log(item.amount);
       });
     };
-
-    let student = api
-      .post(`/student/dep`, {department: selectedDepartment})
+if(selectedDepartment){
+  let student = api.post(`/student/dep`, {department: selectedDepartment},{headers:{
+      "Content-Type":"application/json",
+      'auth': Token
+    }})
       .then((response) => {
         //   console.log("fghj");
-        // console.log(response.data);
+        // console.log(response,"data");
         setStudent(response?.data);
       })
       .catch((e) => {
         console.log(e.message, 'err');
       });
+}
+    // let student = api.post(`/student/dep`, {department: selectedDepartment},{headers:{
+    //   "Content-Type":"application/json",
+    //   'auth': Token
+    // }})
+    //   .then((response) => {
+    //     //   console.log("fghj");
+    //     console.log(response,"data");
+    //     // setStudent(response?.data);
+    //   })
+    //   .catch((e) => {
+    //     console.log(e.message, 'err');
+    //   });
     amount();
   }, [selectedDepartment, selectedFine]);
   const handleSubmit = () => {
-    api.post(`/fine/add`,{department:selectedDepartment,RegNo:selectedRegNo,reason:selectedFine,amount:amount})
+    api.post(`/fine/add`,{department:selectedDepartment,RegNo:selectedRegNo,reason:selectedFine,amount:amount},{headers:{
+      "Content-Type":"application/json",
+      'auth': Token
+    }})
     .then((response)=>{
       if(!response.ok){
-        console.log(response)
+        // console.log();
+        // console.log(response)
         Toast.show({
           type: "error",
           position: "top",
@@ -96,7 +125,7 @@ function AddFine(props) {
       console.log(e.message,"err"); 
     })
   };
-
+// console.log(Token);
   return (
     <Block safe marginTop={sizes.md}>
       <Block paddingHorizontal={sizes.sm}>
@@ -128,7 +157,7 @@ function AddFine(props) {
                 value={null}
                 enabled={false}
               />
-              {value.map((items, index) => {
+              {value?.map((items, index) => {
                 return (
                   <Picker.Item
                     key={index}
@@ -155,7 +184,7 @@ function AddFine(props) {
                 value={null}
                 enabled={false}
               />
-              {student.map((items, index) => {
+              {student?.map((items, index) => {
                 return (
                   <Picker.Item
                     key={index}
@@ -177,7 +206,7 @@ function AddFine(props) {
                 setSelectedFine(itemValue)
               }>
               <Picker.Item label="Select Fine" value={null} enabled={false} />
-              {fine.map((items, index) => {
+              {fine?.map((items, index) => {
                 return (
                   <Picker.Item
                     key={index}
@@ -206,9 +235,19 @@ function AddFine(props) {
             onPress={handleSubmit}
             marginVertical={sizes.s}
             marginHorizontal={sizes.sm}
-            gradient={gradients.secondary}>
+            gradient={gradients.success}>
             <Text bold white transform="uppercase">
               {'Submit'}
+            </Text>
+          </Button>
+
+          <Button
+            onPress={()=>{navigation.navigate('UpdateFine')}}
+            marginVertical={sizes.s}
+            marginHorizontal={sizes.sm}
+            gradient={gradients.secondary}>
+            <Text bold white transform="uppercase">
+              {'Update Fine'}
             </Text>
           </Button>
         </Block>

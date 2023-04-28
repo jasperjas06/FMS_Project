@@ -17,6 +17,7 @@ import useTheme from '../hooks/useTheme';
 import Button from '../components/Button';
 import Block from '../components/Block';
 
+
 export default () => {
   const {t} = useTranslation();
   const {user} = useData();
@@ -47,7 +48,8 @@ export default () => {
               screen: 'Pro',
             })
           }>
-          <Image source={icons.bell} radius={0} color={colors.icon} />
+            <Text>LogOut</Text>
+          <Image source={icons.logout} radius={0} color={colors.icon} />
           <Block
             flex={0}
             right={0}
@@ -57,8 +59,8 @@ export default () => {
             position="absolute"
             gradient={gradients?.primary}
           />
-        </TouchableOpacity>
-        <TouchableOpacity
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity
           onPress={() =>
             navigation.navigate('Screens', {
               screen: 'Pro',

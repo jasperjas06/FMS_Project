@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Alert, Animated, Linking, StyleSheet} from 'react-native';
-
+import jwt_decode from 'jwt-decode';
 import {
   useIsDrawerOpen,
   createDrawerNavigator,
@@ -12,12 +12,14 @@ import {
 import Screens from './Screens';
 import {Block, Text, Switch, Button, Image} from '../components';
 import {useData, useTheme, useTranslation} from '../hooks';
+import {getToken} from '../app/auth/Store';
 
 const Drawer = createDrawerNavigator();
 
 /* drawer menu screens navigation */
 const ScreensStack = () => {
   const {colors} = useTheme();
+  
   const isDrawerOpen = useIsDrawerOpen();
   const animation = useRef(new Animated.Value(0)).current;
 
@@ -42,6 +44,28 @@ const ScreensStack = () => {
       useNativeDriver: true,
       toValue: isDrawerOpen ? 1 : 0,
     }).start();
+
+    // const user = async () => {
+    //   let token = await getToken();
+    //   var decoded = jwt_decode(token);
+    //   console.log(decoded, 'user');
+    //   if (decoded?.isAdmin === true) {
+    //     setPage([
+    //       {name: t('screens.home'), to: 'Home', icon: assets.home},
+    //       {name: 'Department', to: 'Department', icon: assets.office},
+    //       {name: 'Staff', to: 'Staff', icon: assets.components},
+    //       {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
+    //     ]);
+    //   }
+    //   if (decoded?.isStaff === true) {
+    //     setPage([
+    //       {name: t('screens.home'), to: 'Home', icon: assets.home},
+    //       {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
+    //       {name: 'Fine', to: 'Fine', icon: assets.menu},
+    //     ]);
+    //   }
+    // };
+    // user();
   }, [isDrawerOpen, animation]);
 
   return (
@@ -79,26 +103,60 @@ const DrawerContent = (
     },
     [navigation, setActive],
   );
+  const [page, setPage] = useState([]);
+  React.useEffect(()=>{
+    const user = async () => {
+      let token = await getToken();
+      var decoded = jwt_decode(token);
+      // console.log(decoded, 'user');
+      if (decoded?.isAdmin === true) {
+        setPage([
+          {name: t('screens.home'), to: 'Home', icon: assets.home},
+          {name: 'Department', to: 'Department', icon: assets.office},
+          {name: 'Staff', to: 'Staff', icon: assets.components},
+          {name: 'Fine', to: 'CreateFine', icon: assets.basket},
+          {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
+        ]);
+      }
+      if (decoded?.isStaff === true) {
+        setPage([
+          {name: t('screens.home'), to: 'Home', icon: assets.home},
+          {name: 'Fine', to: 'Fine', icon: assets.menu},
+          {name: 'EditStudent', to: 'EditStudent', icon: assets.users},
+          {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
+        ]);
+      }
+      if (decoded?.isStudent === true) {
+        setPage([
+          {name: t('screens.home'), to: 'Home', icon: assets.home},
+          {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
+          // {name: 'Fine', to: 'Fine', icon: assets.menu},
+        ]);
+      }
+    };
+    user();
+  })
+  
 
   // const handleWebLink = useCallback((url) => Linking.openURL(url), []);
-
+  
   // screen list for Drawer menu
   const screens = [
     {name: t('screens.home'), to: 'Home', icon: assets.home},
-    {name: 'Staff_Reg', to: 'Staff', icon: assets.components},
+    {name: 'Staff', to: 'Staff', icon: assets.components},
     {name: t('screens.articles'), to: 'Table', icon: assets.document},
     {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
     // {name: t('screens.register'), to: 'Register', icon: assets.register},
     {name: 'Fine', to: 'Fine', icon: assets.menu},
+    {name: 'Department', to: 'Department', icon: assets.office},
   ];
 
-  const screens1=[
+  const Admin = [
     {name: t('screens.home'), to: 'Home', icon: assets.home},
-    {name: 'Staff_Reg', to: 'Staff', icon: assets.components},
-    {name: t('screens.articles'), to: 'Table', icon: assets.document},
+    {name: 'Department', to: 'Department', icon: assets.office},
+    {name: 'Staff', to: 'Staff', icon: assets.components},
     {name: t('screens.profile'), to: 'Profile', icon: assets.profile},
-    {name: t('screens.register'), to: 'Register', icon: assets.register},
-  ]
+  ];
 
   return (
     <DrawerContentScrollView
@@ -126,7 +184,7 @@ const DrawerContent = (
             </Text>
           </Block>
         </Block>
-        {screens?.map((screen, index) => {
+        {page?.map((screen, index) => {
           const isActive = active === screen.to;
           return (
             <Button
@@ -157,7 +215,7 @@ const DrawerContent = (
               </Text>
             </Button>
           );
-        })}  
+        })}
       </Block>
     </DrawerContentScrollView>
   );

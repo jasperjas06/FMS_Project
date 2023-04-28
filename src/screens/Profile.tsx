@@ -1,16 +1,27 @@
 import React, {useCallback} from 'react';
-import {Platform, Linking} from 'react-native';
+import {Platform, Linking,View,Image,TouchableOpacity} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/core';
 
-import {Block, Button, Image, Text} from '../components/';
+import {Block, Button, Text} from '../components/';
 import {useData, useTheme, useTranslation} from '../hooks/';
-import {DataTable} from 'react-native-paper';
-
+import Logout from '../assets/images/logout.png'
+import User from '../assets/images/user.png'
+import Left from '../assets/images/left.png'
+import Edit from '../assets/images/edit.png'
+import Rvs from '../../assets/rvscas.png'
+// import {DataTable} from 'react-native-paper';
+import DataTable, { COL_TYPES } from 'react-native-datatable-component';
+import { getToken, removeToken } from '../app/auth/Store';
+import jwtDecode from 'jwt-decode';
+import { api } from '../app/utility/apiService';
 const isAndroid = Platform.OS === 'android';
 
 const Profile = () => {
+  const [profile,setProfile]=React.useState({})
   const {user} = useData();
+  const [data,setData]=React.useState([])
+  const [student,setStudent]=React.useState(false)
   const {t} = useTranslation();
   const navigation = useNavigation();
   const {assets, colors, sizes} = useTheme();
@@ -37,38 +48,48 @@ const Profile = () => {
     },
     [user],
   );
-  const data = [
-    {
-      id: 1,
-      name: 'jasper',
-      food: 'xyz',
-      age: '23',
-    },
-    {
-      id: 2,
-      name: 'mathi',
-      food: 'xyz',
-      age: '23',
-    },
-    {
-      id: 3,
-      name: 'velava',
-      food: 'xyz',
-      age: '23',
-    },
-    {
-      id: 4,
-      name: 'sanjay',
-      food: 'xyz',
-      age: '23',
-    },
-    {
-      id: 5,
-      name: 'deva',
-      food: 'xyz',
-      age: '23',
-    },
-  ];
+  
+
+  React.useEffect(()=>{
+    const user =async()=>{
+      let token = await getToken();
+      let decode = jwtDecode(token)
+      // console.log(decode);
+      setStudent(decode?.isStudent)
+
+      if(token){
+        api.post('profile',{id:decode?.id})
+        .then((res)=>{
+          // console.log(res.data);
+          setProfile(res.data?.data)
+        })
+        .catch((e)=>{
+          console.log(e);
+          
+        })
+      }
+       api.post(`fine/personalfine`,{id:decode?.id})
+       .then((res)=>{
+        // console.log(res.data,);
+        if(res.ok){
+          setData(res?.data)
+        }
+       })
+       .catch((e)=>{
+        console.log(e);
+        
+       })
+
+    }
+
+    // let profile=()=>{
+    //   api.post()
+    // }
+
+    user()
+  },[])
+  // console.log(profile.department?.department);
+  
 
   return (
     <Block safe marginTop={sizes.md}>
@@ -78,153 +99,100 @@ const Profile = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: sizes.padding}}>
         <Block flex={0}>
-          <Image
-            background
-            resizeMode="cover"
-            padding={sizes.sm}
-            paddingBottom={sizes.l}
-            radius={sizes.cardRadius}
-            // source={assets.card5}
-          >
+          
             <Button
               row
               flex={0}
               justify="flex-start"
               onPress={() => navigation.goBack()}>
-              <Image
+              {/* <Image
                 radius={0}
                 width={10}
                 height={18}
                 color={colors.black}
                 source={assets.arrow}
                 transform={[{rotate: '180deg'}]}
-              />
+              /> */}
+              <Image source={Left} style={{height:30,width:30}}></Image>
               <Text p black marginLeft={sizes.s}>
                 {t('profile.title')}
               </Text>
             </Button>
+            {/* logout */}
+            <Button
+              row
+              flex={0}
+              justify="flex-start"
+              style={{left:280,bottom:40}}
+              onPress={() => {removeToken()
+                //  navigation.navigate('Login')
+                }
+                }
+              >
+              
+              <Image source={Logout} style={{height:30,width:30}}>
+
+              </Image>
+              <Text p black marginLeft={sizes.s}>
+                {"Logout"}
+              </Text>
+            </Button>
             <Block flex={0} align="center">
-              <Image
+              {/* <Image
                 width={200}
                 height={200}
                 radius={100}
                 marginBottom={sizes.sm}
                 // source={{uri: user?.avatar}}
                 source={require('../assets/images/photo3.png')}
-              />
+              /> */}
+              <Image source={User} style={{height:100,width:100}}></Image>
+              {/* <View style={{top:20}}> */}
+              <Text bold center size={20}>Personal Info:</Text>
               <Text h5 center black>
-                {user?.name}
+                Name: {profile.name}
+              </Text>
+              {!profile.department?(null):(<Text p center black>
+                Department: {profile?.department?.department}
+              </Text>)}
+              <Text p center black>
+                Email: {profile?.email}
               </Text>
               <Text p center black>
-                {user?.department}
+                {profile?.isCashier ===true?"Cashier":"Not Cashier"}
               </Text>
+              <Block 
+              // onPress={()=>navigation.navigate('EditProfile')}
+              >
+                <TouchableOpacity onPress={()=>navigation.navigate('EditProfile')}>
+                <Image source={Edit} style={{height:30,width:30,right:30}}></Image>
+              <Text p center black style={{bottom:20}}>Edit Profile</Text>
+                </TouchableOpacity>
+              </Block>
+              {/* </View> */}
+                {/* <Text bold>My_Fines</Text> */}
+              <View style={{width: '100%', alignSelf: 'center'}}>
               {/* <Block row marginVertical={sizes.m}> */}
-                <Text>Fines</Text>
-                <DataTable>
-                  <DataTable.Header>
-                    <DataTable.Title>Sl</DataTable.Title>
-                    <DataTable.Title>Name</DataTable.Title>
-                    <DataTable.Title>FavouriteFood</DataTable.Title>
-                    <DataTable.Title>Age</DataTable.Title>
-                  </DataTable.Header>
-
-                  {data.map((item, index) => (
-                    <DataTable.Row key={index}>
-                      <DataTable.Cell>{index + 1}</DataTable.Cell>
-                      <DataTable.Cell>{item.name}</DataTable.Cell>
-                      <DataTable.Cell>{item.food}</DataTable.Cell>
-                      <DataTable.Cell>{item.age}</DataTable.Cell>
-                    </DataTable.Row>
-                  ))}
-                </DataTable>
+                {student?(<>
+                  <Text bold center>My_Fines</Text>
+                <DataTable 
+            data={data} // list of objects
+            colNames={['name', 'reason', 'amount']} //List of Strings
+            
+            noOfPages={2} //number
+            // backgroundColor={'rgba(23,2,4,0.2)'} //Table Background Color
+            headerLabelStyle={{ color: 'grey', fontSize: 12 }} //Text Style Works
+        /></>):(
+            <Image source={Rvs} style={{height:300,width:300,left:25}}></Image> 
+        )}
+        </View>
               </Block>
-            {/* </Block> */}
-          </Image>
 
-          {/* profile: stats */}
-          {/* <Block
-            flex={0}
-            radius={sizes.sm}
-            shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
-            marginTop={-sizes.l}
-            marginHorizontal="8%"
-            color="rgba(255,255,255,0.2)">
-            <Block
-              row
-              blur
-              flex={0}
-              intensity={100}
-              radius={sizes.sm}
-              overflow="hidden"
-              tint={colors.blurTint}
-              justify="space-evenly"
-              paddingVertical={sizes.sm}
-              renderToHardwareTextureAndroid>
-              <Block align="center">
-                <Text h5>{user?.stats?.posts}</Text>
-                <Text>{t('profile.posts')}</Text>
-              </Block>
-              <Block align="center">
-                <Text h5>{(user?.stats?.followers || 0) / 1000}k</Text>
-                <Text>{t('profile.followers')}</Text>
-              </Block>
-              <Block align="center">
-                <Text h5>{(user?.stats?.following || 0) / 1000}k</Text>
-                <Text>{t('profile.following')}</Text>
-              </Block>
-            </Block>
-          </Block> */}
-
-          {/* profile: about me */}
-          <Block paddingHorizontal={sizes.sm}>
-            {/* <Text h5 semibold marginBottom={sizes.s} marginTop={sizes.sm}>
-              {t('profile.aboutMe')}
-            </Text> */}
-            {/* <Text p lineHeight={26}>
-              {user?.about}
-            </Text> */}
-          </Block>
-
-          {/* profile: photo album */}
+          
           <Block paddingHorizontal={sizes.sm} marginTop={sizes.s}>
-            {/* <Block row align="center" justify="space-between">
-              <Text h5 semibold>
-                {t('common.album')}
-              </Text>
-              <Button>
-                <Text p primary semibold>
-                  {t('common.viewall')}
-                </Text>
-              </Button>
-            </Block> */}
+            
             <Block row justify="space-between" wrap="wrap">
-              {/* <Image
-                resizeMode="cover"
-                source={assets?.photo1}
-                style={{
-                  width: IMAGE_VERTICAL_SIZE + IMAGE_MARGIN / 2,
-                  height: IMAGE_VERTICAL_SIZE * 2 + IMAGE_VERTICAL_MARGIN,
-                }}
-              /> */}
-              {/* <Block marginLeft={sizes.m}>
-                <Image
-                  resizeMode="cover"
-                  source={assets?.photo2}
-                  marginBottom={IMAGE_VERTICAL_MARGIN}
-                  style={{
-                    height: IMAGE_VERTICAL_SIZE,
-                    width: IMAGE_VERTICAL_SIZE,
-                  }}
-                />
-                <Image
-                  resizeMode="cover"
-                  source={assets?.photo3}
-                  style={{
-                    height: IMAGE_VERTICAL_SIZE,
-                    width: IMAGE_VERTICAL_SIZE,
-                  }}
-                />
-              </Block> */}
+              
             </Block>
           </Block>
         </Block>

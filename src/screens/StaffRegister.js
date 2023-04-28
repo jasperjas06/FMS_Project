@@ -1,10 +1,12 @@
 import { Picker } from '@react-native-picker/picker';
 import React,{useEffect,useState} from 'react';
 import {View, StyleSheet, ToastAndroid} from 'react-native';
-import { api } from '../app/utility/apiService';
+import { api, createStaff, token, url } from '../app/utility/apiService';
 import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
 import {useTheme, useTranslation} from '../hooks';
 import Toast from "react-native-toast-message";
+import { getToken, removeToken } from '../app/auth/Store';
+import axios from 'axios';
 
 function StaffRegister(props) {
   const {assets, colors, gradients, sizes} = useTheme();
@@ -18,7 +20,6 @@ function StaffRegister(props) {
   useEffect(() => {
     let dep = api.get(`/getDep`)
       .then((response) => {
-        // console.log(response.data.data);
         setValue(response?.data.data);
       })
       .catch((e) => {
@@ -26,31 +27,21 @@ function StaffRegister(props) {
       });
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     // console.log(name, email, selectedDepartment);
-    api.post(`staff/register`,{name:name,email:email,department:selectedDepartment})
+    let token = await getToken();
+    // console.log(token);
+    api.post(`staff/register`,{name:name,email:email,department:selectedDepartment},
+    {headers:{
+      "Content-Type":"application/json",
+      'auth': token
+    }}
+    )
     .then((response)=>{
-      console.log(response.data);
-      // if(!response.ok){
-      //   Toast.show({
-      //     type: "error",
-      //     position: "top",
-      //     text1: response.data,
-      //     // text2: "This is some something 👋",
-      //     visibilityTime: 1000,
-      //     autoHide: true,
-      //     topOffset: 30,
-      //     bottomOffset: 40,
-      //     onShow: () => {},
-      //     onHide: () => {}
-      //   });
-      // }
-      // else
+      // console.log(response.data);
       Toast.show({
-        // type: "success",
         position: "top",
         text1: response.data,
-        // text2: "This is some something 👋",
         visibilityTime: 1000,
         autoHide: true,
         topOffset: 30,
@@ -62,6 +53,25 @@ function StaffRegister(props) {
     .catch((e)=>{
       console.log(e.message,"err"); 
     })
+
+  //   let body={name:name,email:email,department:selectedDepartment}
+  //   // let response = await createStaff(body)
+  //   // console.log(response,"res");
+  //   let token = await getToken();
+  // console.log(token);
+  // if (token) {
+  //   token = JSON.parse(token);
+  // }
+  //  await axios({
+  //   method:'POST',
+  //   url:`http://192.168.67.8:9870/api/staff/register`,
+  //   body: JSON.stringify(body),
+  //   headers:{'auth':token}
+  // }).then((response)=>{
+  //   console.log(response);
+  // }).catch((e)=>{
+  //   console.log(e);
+  // })
   };
   return (
     <Block safe marginTop={sizes.md}>
@@ -142,6 +152,18 @@ function StaffRegister(props) {
                   {"Submit"}
                 </Text>
               </Button>
+              {/* <Button
+                // onPress={handleSignUp}
+                onPress={()=>{removeToken()}}
+                marginVertical={sizes.s}
+                marginHorizontal={sizes.sm}
+                gradient={gradients.secondary}
+                // disabled={Object.values(isValid).includes(false)}
+              >
+                <Text bold white transform="uppercase">
+                  {"Clear"}
+                </Text>
+              </Button> */}
               <View style={{margin:10}}></View>
               </Block>
         </Block>

@@ -1,17 +1,21 @@
 import {create} from 'apisauce'
-import { useEffect, useState } from 'react';
+import axios from 'axios'
+import { getToken } from '../auth/Store';
+let baseUrl = "http://192.168.67.8:9870/api/";
 
-// function Abc(){
-//   const [data,setData]=useState()
-//   return
-// }
-let db= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0Mjk2ZTAzNzdhMzlmNmYzNjJlZDI5NCIsImlzU3RhZmYiOnRydWUsImlzQ2FzaGllciI6dHJ1ZSwiaWF0IjoxNjgwNDM2NzYwfQ.8YwbYofzz0ZgJ4hlTDr7Btbi1D2CBwb-bh8rmh6KOS8"
-let token = JSON.stringify(db)
-console.log(token);
 export const api=create({
-  baseURL:"http://192.168.67.8:9870/api/",
-  headers:{
-    "Content-Type":"application/json",
-    'auth':db
-  }
+  baseURL:baseUrl,
+  // headers:{
+  //   "Content-Type":"application/json",
+  //   'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0M2E0MThlZDM4ZDIyZTZkZDZjN2E4NyIsImlzU3RhZmYiOnRydWUsImlzQ2FzaGllciI6dHJ1ZSwiaWF0IjoxNjgxNTM5NDc0fQ.dUYKcTz8NNqjlUgkZyoA09wxlOmr6gZz58kjMuocyf8'
+  // }
 })
+export const url="http://192.168.67.8:9870/api/";
+
+export const token=async()=>{
+let res=await getToken()
+let data= res
+return data
+}
+
+
